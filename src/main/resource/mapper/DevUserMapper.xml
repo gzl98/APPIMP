@@ -17,4 +17,11 @@
         where APKName = #{APKName}
     </select>
 
+    <!--改变APP上架、下架状态-->
+    <update id="changeShelfStatus" parameterType="com.pojo.APPInfo">
+        update app_info
+        set status = #{status}
+        where appId = #{appId}
+    </update>
+
 </mapper>

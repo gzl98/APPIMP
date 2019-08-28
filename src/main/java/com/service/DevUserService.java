@@ -1,5 +1,6 @@
 package com.service;
 
+import com.pojo.APPInfo;
 import com.pojo.DevUser;
 
 public interface DevUserService {
@@ -19,5 +20,13 @@ public interface DevUserService {
      * @return 返回TRUE则为唯一
      */
     Boolean checkApkOnly(String APKName);
+
+    /**
+     * 改变上架、下架的状态
+     *
+     * @param appInfo 修改条件的包装对象
+     * @return 修改是否成功（1：成功，0失败）
+     */
+    Integer changeShelfStatus(APPInfo appInfo);
 
 }

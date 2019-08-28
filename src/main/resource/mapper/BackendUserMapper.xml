@@ -33,6 +33,7 @@
         <if test="offset !=null and limit != null">limit #{offset},#{limit}</if>
     </select>
 
+    <!--审核APP-->
     <update id="checkAPP" parameterType="com.pojo.APPInfo">
         update app_info
         set status = #{status}

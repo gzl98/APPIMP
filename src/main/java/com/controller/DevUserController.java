@@ -1,5 +1,6 @@
 package com.controller;
 
+import com.pojo.APPInfo;
 import com.pojo.DevUser;
 import com.service.DevUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,6 +62,22 @@ public class DevUserController {
         } else {
             map.put("only", 0);
         }
+        return map;
+    }
+
+    /**
+     * 改变上架、下架的状态
+     */
+    @RequestMapping("/changeShelfStatus")
+    @ResponseBody
+    public Map<String, Object> changeShelfStatus(HttpServletRequest request) {
+        Integer appId = Integer.valueOf(request.getParameter("appId"));
+        Integer appStatus = Integer.valueOf(request.getParameter("appStatus"));
+        APPInfo appInfo = new APPInfo();
+        appInfo.setAppId(appId);
+        appInfo.setStatus(appStatus);
+        Map<String, Object> map = new HashMap<>();
+        map.put("success", devUserService.changeShelfStatus(appInfo));
         return map;
     }
 

@@ -1,6 +1,7 @@
 package com.service.impl;
 
 import com.dao.DevUserDao;
+import com.pojo.APPInfo;
 import com.pojo.DevUser;
 import com.service.DevUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,5 +35,20 @@ public class DevUserServiceImpl implements DevUserService {
      */
     public Boolean checkApkOnly(String APKName) {
         return devUserDao.checkApkOnly(APKName) == null;
+    }
+
+    /**
+     * 改变上架、下架的状态
+     *
+     * @param appInfo 修改条件的包装对象
+     * @return 修改是否成功（1：成功，0失败）
+     */
+    public Integer changeShelfStatus(APPInfo appInfo) {
+        try {
+            devUserDao.changeShelfStatus(appInfo);
+        } catch (Exception e) {
+            return 0;
+        }
+        return 1;
     }
 }
