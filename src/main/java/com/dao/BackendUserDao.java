@@ -32,4 +32,12 @@ public interface BackendUserDao {
      */
     List<APPInfo> getAPPListByAttr(APPInfo appInfo);
 
+    /**
+     * 管理员审核APP
+     *
+     * @param appInfo 修改条件的包装对象
+     * @return 审核是否成功（1：成功，0失败）
+     */
+    Integer checkAPP(APPInfo appInfo);
+
 }

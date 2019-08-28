@@ -8,6 +8,7 @@ import com.service.BackendUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.SQLException;
 import java.util.List;
 
 @Service
@@ -53,4 +54,18 @@ public class BackendUserServiceImpl implements BackendUserService {
         return backendUserDao.getAPPListByAttr(appInfo);
     }
 
+    /**
+     * 管理员审核APP
+     *
+     * @param appInfo 修改条件的包装对象
+     * @return 审核是否成功（1：成功，0失败）
+     */
+    public Integer checkAPP(APPInfo appInfo){
+        try {
+            backendUserDao.checkAPP(appInfo);
+        }catch (Exception e){
+            return 0;
+        }
+        return 1;
+    }
 }

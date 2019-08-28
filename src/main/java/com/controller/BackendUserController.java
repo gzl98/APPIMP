@@ -77,4 +77,18 @@ public class BackendUserController {
         return map;
     }
 
+    /**
+     * 管理员审核
+     */
+    @RequestMapping("/checkAPP")
+    @ResponseBody
+    public Map<String, Object> checkAPP(HttpServletRequest request) {
+        APPInfo appInfo = new APPInfo();
+        appInfo.setAppId(Integer.valueOf(request.getParameter("appId")));
+        appInfo.setStatus(Integer.valueOf(request.getParameter("appStatus")));
+        Map<String, Object> map = new HashMap<>();
+        map.put("success", backendUserService.checkAPP(appInfo));
+        return map;
+    }
+
 }

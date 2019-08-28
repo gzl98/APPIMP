@@ -4,6 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.dao.BackendUserDao">
 
+    <!--根据账号获取管理员信息-->
     <select id="getBackendUserByCode" parameterType="String" resultType="com.pojo.BackendUser">
         select * from backend_user
         where userCode = #{userCode}
@@ -21,7 +22,7 @@
 
     <!--综合查询APP信息-->
     <select id="getAPPListByAttr" parameterType="com.pojo.APPInfo" resultType="com.pojo.APPInfo">
-        SELECT * FROM app_info where 1=1
+        select * from app_info where 1=1
         <if test="softwareName != null">and softwareName like "%"#{softwareName}"%"</if>
         <if test="status != null">and status = #{status}</if>
         <if test="flatformId != null">and flatformId = #{flatformId}</if>
@@ -31,5 +32,11 @@
         <if test="categoryLevel3 != null">and categoryLevel3 = #{categoryLevel3}</if>
         <if test="offset !=null and limit != null">limit #{offset},#{limit}</if>
     </select>
+
+    <update id="checkAPP" parameterType="com.pojo.APPInfo">
+        update app_info
+        set status = #{status}
+        where appId = #{appId}
+    </update>
 
 </mapper>
