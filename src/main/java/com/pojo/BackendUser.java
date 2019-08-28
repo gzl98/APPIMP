@@ -7,7 +7,7 @@ import java.util.Date;
  */
 public class BackendUser {
 
-    private Integer backednId;  //管理员id
+    private Integer backendId;  //管理员id
     private String userCode;     //账号
     private String userName;     //管理员名称
     private String userPassword; //密码
@@ -17,12 +17,12 @@ public class BackendUser {
     private Integer modifyBy;   //更新者
     private Date modifyDate;    //更新日期
 
-    public Integer getBackednId() {
-        return backednId;
+    public Integer getBackendId() {
+        return backendId;
     }
 
-    public void setBackednId(Integer backednId) {
-        this.backednId = backednId;
+    public void setBackendId(Integer backendId) {
+        this.backendId = backendId;
     }
 
     public String getUserCode() {

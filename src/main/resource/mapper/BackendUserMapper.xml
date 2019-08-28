@@ -4,4 +4,32 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.dao.BackendUserDao">
 
+    <select id="getBackendUserByCode" parameterType="String" resultType="com.pojo.BackendUser">
+        select * from backend_user
+        where userCode = #{userCode}
+    </select>
+
+    <!--通过目录名获取下一级目录的列表-->
+    <select id="getChildAPPCategoryList" parameterType="String" resultType="com.pojo.APPCategory">
+        select * from app_category
+        where parentId in (
+          select categoryId
+          from app_category
+          WHERE categoryName=#{categoryName}
+        )
+    </select>
+
+    <!--综合查询APP信息-->
+    <select id="getAPPListByAttr" parameterType="com.pojo.APPInfo" resultType="com.pojo.APPInfo">
+        SELECT * FROM app_info where 1=1
+        <if test="softwareName != null">and softwareName like "%"#{softwareName}"%"</if>
+        <if test="status != null">and status = #{status}</if>
+        <if test="flatformId != null">and flatformId = #{flatformId}</if>
+        <if test="devId != null">and devId = #{devId}</if>
+        <if test="categoryLevel1 != null">and categoryLevel1 = #{categoryLevel1}</if>
+        <if test="categoryLevel2 != null">and categoryLevel2 = #{categoryLevel2}</if>
+        <if test="categoryLevel3 != null">and categoryLevel3 = #{categoryLevel3}</if>
+        <if test="offset !=null and limit != null">limit #{offset},#{limit}</if>
+    </select>
+
 </mapper>
