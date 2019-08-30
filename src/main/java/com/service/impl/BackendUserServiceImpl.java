@@ -33,24 +33,50 @@ public class BackendUserServiceImpl implements BackendUserService {
     }
 
     /**
-     * 通过目录名获取下一级目录的列表
+     * 通过目录Id取下一级目录的列表
      *
-     * @param categoryName 目录名
+     * @param categoryId 目录Id
      * @return 下一级目录的List
      */
-    public List<APPCategory> getChildAPPCategoryList(String categoryName) {
-        return backendUserDao.getChildAPPCategoryList(categoryName);
+    public List<APPCategory> getChildAPPCategoryList(Integer categoryId) {
+        return backendUserDao.getChildAPPCategoryList(categoryId);
     }
 
 
     /**
      * 综合查询APP信息
      *
-     * @param appInfo 查询条件的包装对象
+     * @param appIds appId的集合
+     * @param offset 分页的偏移量
+     * @param limit  每页的限制条数，即数据库每次的查询条数
      * @return 符合条件的集合
      */
-    public List<APPInfo> getAPPListByAttr(APPInfo appInfo) {
-        return backendUserDao.getAPPListByAttr(appInfo);
+    public List<APPInfo> getAPPListByAttr(Integer[] appIds, Integer offset, Integer limit) {
+        return backendUserDao.getAPPListByAttr(appIds, offset, limit);
     }
 
+    /**
+     * 综合查询APP数量
+     *
+     * @param appInfo 修改条件的包装对象
+     * @return 符合条件的APP ID集合
+     */
+    public List<Integer> getAPPCountByAttr(APPInfo appInfo) {
+        return backendUserDao.getAPPCountByAttr(appInfo);
+    }
+
+    /**
+     * 管理员审核APP
+     *
+     * @param appInfo 修改条件的包装对象
+     * @return 审核是否成功（1：成功，0失败）
+     */
+    public Integer checkAPP(APPInfo appInfo) {
+        try {
+            backendUserDao.checkAPP(appInfo);
+        } catch (Exception e) {
+            return 0;
+        }
+        return 1;
+    }
 }

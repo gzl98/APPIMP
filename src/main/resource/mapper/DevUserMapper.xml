@@ -53,4 +53,25 @@
         select *
         from app_version where versionNo=#{versionNo};
     </select>
+
+    <!--根据账号获取开发者信息-->
+    <select id="getDevUserByCode" parameterType="String" resultType="com.pojo.DevUser">
+        select * from dev_user
+        where devCode = #{devCode}
+    </select>
+
+    <!--验证apk名字是否唯一，返回APP的id值-->
+    <select id="checkApkOnly" parameterType="String" resultType="Integer">
+        select appId
+        from app_info
+        where APKName = #{APKName}
+    </select>
+
+    <!--改变APP上架、下架状态-->
+    <update id="changeShelfStatus" parameterType="com.pojo.APPInfo">
+        update app_info
+        set status = #{status}
+        where appId = #{appId}
+    </update>
+
 </mapper>
