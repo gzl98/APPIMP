@@ -11,13 +11,9 @@
     </select>
 
     <!--通过目录名获取下一级目录的列表-->
-    <select id="getChildAPPCategoryList" parameterType="String" resultType="com.pojo.APPCategory">
+    <select id="getChildAPPCategoryList" parameterType="Integer" resultType="com.pojo.APPCategory">
         select * from app_category
-        where parentId in (
-          select categoryId
-          from app_category
-          WHERE categoryName=#{categoryName}
-        )
+        where parentId = #{categoryId}
     </select>
 
     <!--综合查询APP信息-->

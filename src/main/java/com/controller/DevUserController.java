@@ -5,6 +5,7 @@ import com.pojo.DevUser;
 import com.service.DevUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -28,10 +29,11 @@ public class DevUserController {
      * 开发者登录验证
      */
     @RequestMapping("/devLogin")
-    @ResponseBody
+    @ResponseBody@CrossOrigin
     public Map<String, Object> getDevUserByCode(HttpServletRequest request) {
         String userCode = request.getParameter("username");
         String password = request.getParameter("password");
+        System.out.println(userCode + "   " + password);
         DevUser devUser = devUserService.getDevUserByCode(userCode);
         Map<String, Object> map = new HashMap<>();
         if (devUser != null) {
@@ -53,7 +55,7 @@ public class DevUserController {
      * 验证APK名称的唯一性
      */
     @RequestMapping("/checkApkOnly")
-    @ResponseBody
+    @ResponseBody@CrossOrigin
     public Map<String, Object> checkApkOnly(HttpServletRequest request) {
         String apkName = request.getParameter("apkName");
         Map<String, Object> map = new HashMap<>();
@@ -69,7 +71,7 @@ public class DevUserController {
      * 改变上架、下架的状态
      */
     @RequestMapping("/changeShelfStatus")
-    @ResponseBody
+    @ResponseBody@CrossOrigin
     public Map<String, Object> changeShelfStatus(HttpServletRequest request) {
         Integer appId = Integer.valueOf(request.getParameter("appId"));
         Integer appStatus = Integer.valueOf(request.getParameter("appStatus"));

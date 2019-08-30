@@ -17,12 +17,12 @@ public interface BackendUserService {
     BackendUser getBackendUserByCode(String userCode);
 
     /**
-     * 通过目录名获取下一级目录的列表
+     * 通过目录Id取下一级目录的列表
      *
-     * @param categoryName 目录名
+     * @param categoryId 目录Id
      * @return 下一级目录的List
      */
-    List<APPCategory> getChildAPPCategoryList(String categoryName);
+    List<APPCategory> getChildAPPCategoryList(Integer categoryId);
 
     /**
      * 综合查询APP信息

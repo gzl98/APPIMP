@@ -5,6 +5,8 @@ import com.pojo.BackendUser;
 import com.service.BackendUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -27,7 +29,7 @@ public class BackendUserController {
      * 管理员登录验证
      */
     @RequestMapping("/backLogin")
-    @ResponseBody
+    @ResponseBody@CrossOrigin
     public Map<String, Object> getBackendUserByCode(HttpServletRequest request) {
         String userCode = request.getParameter("username");
         String password = request.getParameter("password");
@@ -50,13 +52,16 @@ public class BackendUserController {
     }
 
     /**
-     * 通过目录名获取下一级目录的列表
+     * 通过目录Id获取下一级目录的列表
      */
     @RequestMapping("/categoryChange")
-    @ResponseBody
+    @ResponseBody@CrossOrigin
     public Map<String, Object> categoryChange(HttpServletRequest request) {
+        Integer categoryId = Integer.valueOf(request.getParameter("categoryId"));
+        System.out.println("categoryId : " + categoryId);
         Map<String, Object> map = new HashMap<>();
-        map.put("data", backendUserService.getChildAPPCategoryList(request.getParameter("categoryName")));
+        map.put("data", backendUserService.getChildAPPCategoryList(categoryId));
+//        map.put("data", backendUserService.getChildAPPCategoryList(request.getParameter("categoryName")));
         return map;
     }
 
@@ -64,7 +69,7 @@ public class BackendUserController {
      * 综合查询APP信息
      */
     @RequestMapping("/getAPPListByAttr")
-    @ResponseBody
+    @ResponseBody@CrossOrigin
     public Map<String, Object> getAPPListByAttr(HttpServletRequest request) {
         APPInfo appInfo = new APPInfo();
         appInfo.setSoftwareName(request.getParameter("softwareName"));
@@ -81,7 +86,7 @@ public class BackendUserController {
      * 管理员审核
      */
     @RequestMapping("/checkAPP")
-    @ResponseBody
+    @ResponseBody@CrossOrigin
     public Map<String, Object> checkAPP(HttpServletRequest request) {
         APPInfo appInfo = new APPInfo();
         appInfo.setAppId(Integer.valueOf(request.getParameter("appId")));

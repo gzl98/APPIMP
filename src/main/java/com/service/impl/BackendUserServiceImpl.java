@@ -8,7 +8,6 @@ import com.service.BackendUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.sql.SQLException;
 import java.util.List;
 
 @Service
@@ -34,13 +33,13 @@ public class BackendUserServiceImpl implements BackendUserService {
     }
 
     /**
-     * 通过目录名获取下一级目录的列表
+     * 通过目录Id取下一级目录的列表
      *
-     * @param categoryName 目录名
+     * @param categoryId 目录Id
      * @return 下一级目录的List
      */
-    public List<APPCategory> getChildAPPCategoryList(String categoryName) {
-        return backendUserDao.getChildAPPCategoryList(categoryName);
+    public List<APPCategory> getChildAPPCategoryList(Integer categoryId) {
+        return backendUserDao.getChildAPPCategoryList(categoryId);
     }
 
 

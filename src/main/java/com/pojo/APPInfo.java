@@ -7,6 +7,7 @@ import java.util.Date;
  */
 public class APPInfo {
 
+    //实体类内部字段
     private Integer appId;              //APPid
     private Integer versionId;          //版本id
     private Integer devId;              //开发者id
@@ -31,6 +32,14 @@ public class APPInfo {
     private Date creationDate;          //创建日期
     private Integer modifyBy;           //更新者
     private Date modifyDate;            //更新日期
+
+    //实体类外部字段
+    private String categoryName1;       //目录名1
+    private String categoryName2;       //目录名2
+    private String categoryName3;       //目录名3
+    private String statusName;          //状态名称
+    private String flatformName;        //平台名称
+    private String versionName;         //版本号
 
     public Integer getAppId() {
         return appId;
@@ -222,5 +231,53 @@ public class APPInfo {
 
     public void setModifyDate(Date modifyDate) {
         this.modifyDate = modifyDate;
+    }
+
+    public String getCategoryName1() {
+        return categoryName1;
+    }
+
+    public void setCategoryName1(String categoryName1) {
+        this.categoryName1 = categoryName1;
+    }
+
+    public String getCategoryName2() {
+        return categoryName2;
+    }
+
+    public void setCategoryName2(String categoryName2) {
+        this.categoryName2 = categoryName2;
+    }
+
+    public String getCategoryName3() {
+        return categoryName3;
+    }
+
+    public void setCategoryName3(String categoryName3) {
+        this.categoryName3 = categoryName3;
+    }
+
+    public String getStatusName() {
+        return statusName;
+    }
+
+    public void setStatusName(String statusName) {
+        this.statusName = statusName;
+    }
+
+    public String getFlatformName() {
+        return flatformName;
+    }
+
+    public void setFlatformName(String flatformName) {
+        this.flatformName = flatformName;
+    }
+
+    public String getVersionName() {
+        return versionName;
+    }
+
+    public void setVersionName(String versionName) {
+        this.versionName = versionName;
     }
 }
