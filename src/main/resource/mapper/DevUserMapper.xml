@@ -27,16 +27,16 @@
             )
     </insert>
     <insert id="addAPPVersion" parameterType="APPVersion">
-        insert into app_version(appVersionId,appId,versionNo,versionInfo,publishStatus,versionSize,createdBy,creationDate)
+        insert into app_version(appId,versionNo,versionInfo,publishStatus,versionSize,createdBy,creationDate,apkLocPath)
         value (
-               #{appVersionId},
                #{appId},
                #{versionNo},
                #{versionInfo},
                #{publishStatus},
                #{publishStatus},
                #{createdBy},
-               #{creationDate}
+               #{creationDate},
+                #{apkLocPath}
               )
     </insert>
     <delete id="deleteAPPInfo" parameterType="String">

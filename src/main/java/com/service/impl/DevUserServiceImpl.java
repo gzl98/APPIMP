@@ -44,7 +44,7 @@ public class DevUserServiceImpl implements DevUserService {
         appVersion.setCreationDate(new Date());
         try {
             List<APPVersion> appVersions=devUserDao.getAPPVersionByVersionNo(appVersion.getVersionNo());
-            if (appVersions.size()==0)
+            if (appVersions.size()!=0)
                 return false;
             devUserDao.addAPPVersion(appVersion);
             return true;

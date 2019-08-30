@@ -5,6 +5,7 @@ import com.pojo.APPVersion;
 import com.pojo.APPInfo;
 import com.pojo.DevUser;
 import com.service.DevUserService;
+import com.utils.ConstVar;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
@@ -135,13 +136,13 @@ public class DevUserController {
     @ResponseBody
     public Map<String,Object> addAPPVersion(HttpServletRequest request){
         APPVersion appVersion=new APPVersion();
-        appVersion.setAppVersionId(Integer.valueOf(request.getParameter("versionNo")));
+        appVersion.setVersionNo(request.getParameter("versionNo"));
         appVersion.setAppId(Integer.valueOf(request.getParameter("appId")));
         appVersion.setCreatedBy(Integer.valueOf(request.getParameter("userId")));
         appVersion.setPublishStatus(Integer.valueOf(request.getParameter("publishStatus")));
         appVersion.setVersionSize(Double.valueOf(request.getParameter("versionSize")));
         appVersion.setVersionInfo(request.getParameter("versionInfo"));
-        appVersion.setApkLocPath(request.getParameter("versionId"));
+        appVersion.setApkLocPath(request.getParameter("apkLocPath"));
         Map<String, Object> map = new HashMap<>();
         if(devUserService.addAPPVersion(appVersion))
             map.put("success",1);
@@ -203,11 +204,13 @@ public class DevUserController {
                         String save_path,file_link;
                         if (extension.equals("apk")){
                             save_path=request.getServletContext().getRealPath("files/apk_files");
-                            file_link=request.getContextPath()+"/files/apk_files/"+file_name;
+                            file_link= new StringBuilder().append(ConstVar.domain).append("/").
+                                    append(request.getContextPath()).append("/files/apk_files/").append(file_name).toString();
                         }
                         else{
                             save_path=request.getServletContext().getRealPath("files/image_files");
-                            file_link=request.getContextPath()+"/files/apk_files/"+file_name;
+                            file_link= new StringBuilder().append(ConstVar.domain).append("/").
+                                    append(request.getContextPath()).append("/files/image_files/").append(file_name).toString();
                         }
                         create_dir(save_path);
                         try {
