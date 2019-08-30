@@ -39,7 +39,7 @@ public class APPInfo {
     private String categoryName3;       //目录名3
     private String statusName;          //状态名称
     private String flatformName;        //平台名称
-    private String versionName;         //版本号
+    private String versionNo;         //版本号
 
     public Integer getAppId() {
         return appId;
@@ -273,11 +273,11 @@ public class APPInfo {
         this.flatformName = flatformName;
     }
 
-    public String getVersionName() {
-        return versionName;
+    public String getVersionNo() {
+        return versionNo;
     }
 
-    public void setVersionName(String versionName) {
-        this.versionName = versionName;
+    public void setVersionNo(String versionNo) {
+        this.versionNo = versionNo;
     }
 }

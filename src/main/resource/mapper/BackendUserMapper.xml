@@ -18,7 +18,26 @@
 
     <!--综合查询APP信息-->
     <select id="getAPPListByAttr" parameterType="com.pojo.APPInfo" resultType="com.pojo.APPInfo">
-        select * from app_info where 1=1
+        select app_info.*, app_version.versionNo, d1.valueName statusName, d2.valueName flatformName, c1.categoryName categoryName1, c2.categoryName categoryName2, c3.categoryName categoryName3
+        from app_info, app_version, data_dictionary d1, data_dictionary d2,app_category c1, app_category c2, app_category c3
+        where app_info.appId in
+        <foreach collection="appIds" item="appId" index="index" open="(" close=")" separator=",">
+            #appId
+        </foreach>
+        and app_info.versionId = app_version.appVersionId
+        and d1.valueId = status
+        and d1.typeCode = "app_status"
+        and d2.valueId = flatformId
+        and d2.typeCode = "app_flatform"
+        and c1.categoryId = categoryLevel1
+        and c2.categoryId = categoryLevel2
+        and c3.categoryId = categoryLevel3
+        <if test="offset !=null and limit != null">limit #{offset},#{limit}</if>
+    </select>
+
+    <!--综合查询APP数量-->
+    <select id="getAPPCountByAttr" parameterType="com.pojo.APPInfo" resultType="Integer">
+        select appId from app_info where 1=1
         <if test="softwareName != null">and softwareName like "%"#{softwareName}"%"</if>
         <if test="status != null">and status = #{status}</if>
         <if test="flatformId != null">and flatformId = #{flatformId}</if>
@@ -26,7 +45,6 @@
         <if test="categoryLevel1 != null">and categoryLevel1 = #{categoryLevel1}</if>
         <if test="categoryLevel2 != null">and categoryLevel2 = #{categoryLevel2}</if>
         <if test="categoryLevel3 != null">and categoryLevel3 = #{categoryLevel3}</if>
-        <if test="offset !=null and limit != null">limit #{offset},#{limit}</if>
     </select>
 
     <!--审核APP-->

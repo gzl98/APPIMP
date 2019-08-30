@@ -29,7 +29,8 @@ public class BackendUserController {
      * 管理员登录验证
      */
     @RequestMapping("/backLogin")
-    @ResponseBody@CrossOrigin
+    @ResponseBody
+    @CrossOrigin
     public Map<String, Object> getBackendUserByCode(HttpServletRequest request) {
         String userCode = request.getParameter("username");
         String password = request.getParameter("password");
@@ -55,7 +56,8 @@ public class BackendUserController {
      * 通过目录Id获取下一级目录的列表
      */
     @RequestMapping("/categoryChange")
-    @ResponseBody@CrossOrigin
+    @ResponseBody
+    @CrossOrigin
     public Map<String, Object> categoryChange(HttpServletRequest request) {
         Integer categoryId = Integer.valueOf(request.getParameter("categoryId"));
         System.out.println("categoryId : " + categoryId);
@@ -69,16 +71,42 @@ public class BackendUserController {
      * 综合查询APP信息
      */
     @RequestMapping("/getAPPListByAttr")
-    @ResponseBody@CrossOrigin
+    @ResponseBody
+    @CrossOrigin
     public Map<String, Object> getAPPListByAttr(HttpServletRequest request) {
+        Integer offset = Integer.valueOf(request.getParameter("offset"));
+        Integer limit = Integer.valueOf(request.getParameter("limit"));
+        String[] appIds = request.getParameter("appIds").split(",");
+
+        Integer[] appIdsI = new Integer[appIds.length];
+        for (int i = 0; i < appIds.length; i++) {
+            appIdsI[i] = Integer.valueOf(appIds[i]);
+        }
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("data", backendUserService.getAPPListByAttr(appIdsI, (offset - 1) * limit, limit));
+        return map;
+    }
+
+    /**
+     * 综合查询APP数量
+     */
+    @RequestMapping("/getAPPCountByAttr")
+    @ResponseBody
+    @CrossOrigin
+    public Map<String, Object> getAPPCountByAttr(HttpServletRequest request) {
         APPInfo appInfo = new APPInfo();
+
         appInfo.setSoftwareName(request.getParameter("softwareName"));
-//        appInfo.setSoftwareName(request.getParameter("softwareName"));
         appInfo.setStatus(Integer.valueOf(request.getParameter("appStatus")));
         appInfo.setFlatformId(Integer.valueOf(request.getParameter("appFlatForm")));
         appInfo.setDevId(Integer.valueOf(request.getParameter("userId")));
+        appInfo.setCategoryLevel1(Integer.valueOf(request.getParameter("appCategory1")));
+        appInfo.setCategoryLevel2(Integer.valueOf(request.getParameter("appCategory2")));
+        appInfo.setCategoryLevel3(Integer.valueOf(request.getParameter("appCategory3")));
         Map<String, Object> map = new HashMap<>();
-        map.put("data", backendUserService.getAPPListByAttr(appInfo));
+
+        map.put("data", backendUserService.getAPPCountByAttr(appInfo));
         return map;
     }
 
@@ -86,7 +114,8 @@ public class BackendUserController {
      * 管理员审核
      */
     @RequestMapping("/checkAPP")
-    @ResponseBody@CrossOrigin
+    @ResponseBody
+    @CrossOrigin
     public Map<String, Object> checkAPP(HttpServletRequest request) {
         APPInfo appInfo = new APPInfo();
         appInfo.setAppId(Integer.valueOf(request.getParameter("appId")));
