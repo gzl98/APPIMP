@@ -76,5 +76,4 @@ public class BackendUserController {
         map.put("data", backendUserService.getAPPListByAttr(appInfo));
         return map;
     }
-
 }

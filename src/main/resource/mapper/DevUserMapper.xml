@@ -3,5 +3,54 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.dao.DevUserDao">
-
+    <insert id="addAPPInfo" parameterType="APPInfo">
+            insert into app_info(softwareName, APKName, supportROM, interfaceLanguage, softwareSize, devId, appInfo, status,
+                                 flatformId, downloads, createdBy, creationDate, categoryLevel1, categoryLevel2, categoryLevel3,
+                                 logoPicPath, versionId)
+            values(#{softwareName},
+                   #{APKName},
+                   #{supportROM},
+                   #{interfaceLanguage},
+                   #{softwareSize},
+                   #{devId},
+                   #{appInfo},
+                   #{status},
+                   #{flatformId},
+                   #{downloads},
+                   #{createdBy},
+                   #{creationDate},
+                   #{categoryLevel1},
+                   #{categoryLevel2},
+                   #{categoryLevel3},
+                   #{logoPicPath},
+                   #{versionId}
+            )
+    </insert>
+    <insert id="addAPPVersion" parameterType="APPVersion">
+        insert into app_version(appVersionId,appId,versionNo,versionInfo,publishStatus,versionSize,createdBy,creationDate)
+        value (
+               #{appVersionId},
+               #{appId},
+               #{versionNo},
+               #{versionInfo},
+               #{publishStatus},
+               #{publishStatus},
+               #{createdBy},
+               #{creationDate}
+              )
+    </insert>
+    <delete id="deleteAPPInfo" parameterType="String">
+        delete from app_info where appId= #{appid}
+    </delete>
+    <select id="getAPPInfo" parameterType="String" resultType="com.pojo.APPInfo">
+        select * from app_info where appId=#{appId}
+    </select>
+    <select id="getAPPVersion" parameterType="String" resultType="com.pojo.APPVersion">
+        select *
+        from app_version where appId=#{appId};
+    </select>
+    <select id="getAPPVersionByVersionNo" parameterType="String" resultType="APPVersion">
+        select *
+        from app_version where versionNo=#{versionNo};
+    </select>
 </mapper>
