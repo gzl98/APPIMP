@@ -2,7 +2,6 @@ package com.controller;
 
 import com.pojo.APPInfo;
 import com.pojo.APPVersion;
-import com.pojo.APPInfo;
 import com.pojo.DevUser;
 import com.service.DevUserService;
 import com.utils.ConstVar;
@@ -10,22 +9,20 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import javax.servlet.http.HttpServletRequest;
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import org.apache.commons.io.FilenameUtils;
-
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
 import java.util.Map;
 
 @Controller
@@ -44,7 +41,8 @@ public class DevUserController {
      * 开发者登录验证
      */
     @RequestMapping("/devLogin")
-    @ResponseBody@CrossOrigin
+    @ResponseBody
+    @CrossOrigin
     public Map<String, Object> getDevUserByCode(HttpServletRequest request) {
         String userCode = request.getParameter("username");
         String password = request.getParameter("password");
@@ -70,7 +68,8 @@ public class DevUserController {
      * 验证APK名称的唯一性
      */
     @RequestMapping("/checkApkOnly")
-    @ResponseBody@CrossOrigin
+    @ResponseBody
+    @CrossOrigin
     public Map<String, Object> checkApkOnly(HttpServletRequest request) {
         String apkName = request.getParameter("apkName");
         Map<String, Object> map = new HashMap<>();
@@ -86,7 +85,8 @@ public class DevUserController {
      * 改变上架、下架的状态
      */
     @RequestMapping("/changeShelfStatus")
-    @ResponseBody@CrossOrigin
+    @ResponseBody
+    @CrossOrigin
     public Map<String, Object> changeShelfStatus(HttpServletRequest request) {
         Integer appId = Integer.valueOf(request.getParameter("appId"));
         Integer appStatus = Integer.valueOf(request.getParameter("appStatus"));
@@ -100,12 +100,14 @@ public class DevUserController {
 
     /**
      * 增加App信息
+     *
      * @param request
      * @return map
      */
     @RequestMapping("/addAPPInfo")
     @ResponseBody
-    public Map<String,Object> addAPPInfo(HttpServletRequest request){
+    @CrossOrigin
+    public Map<String, Object> addAPPInfo(HttpServletRequest request) {
         APPInfo appInfo = new APPInfo();
         appInfo.setSoftwareName(request.getParameter("softwareName"));
         appInfo.setAPKName(request.getParameter("apkName"));
@@ -122,11 +124,11 @@ public class DevUserController {
         appInfo.setLogoPicPath(request.getParameter("logoPicPath"));
         appInfo.setDevId(Integer.valueOf(request.getParameter("userId")));
         Map<String, Object> map = new HashMap<>();
-        if(devUserService.addAPPInfo(appInfo))
-            map.put("success",1);
+        if (devUserService.addAPPInfo(appInfo))
+            map.put("success", 1);
         else
-            map.put("success",0);
-        return  map;
+            map.put("success", 0);
+        return map;
     }
 
     /**
@@ -134,8 +136,9 @@ public class DevUserController {
      */
     @RequestMapping("/addAPPVersion")
     @ResponseBody
-    public Map<String,Object> addAPPVersion(HttpServletRequest request){
-        APPVersion appVersion=new APPVersion();
+    @CrossOrigin
+    public Map<String, Object> addAPPVersion(HttpServletRequest request) {
+        APPVersion appVersion = new APPVersion();
         appVersion.setVersionNo(request.getParameter("versionNo"));
         appVersion.setAppId(Integer.valueOf(request.getParameter("appId")));
         appVersion.setCreatedBy(Integer.valueOf(request.getParameter("userId")));
@@ -144,11 +147,11 @@ public class DevUserController {
         appVersion.setVersionInfo(request.getParameter("versionInfo"));
         appVersion.setApkLocPath(request.getParameter("apkLocPath"));
         Map<String, Object> map = new HashMap<>();
-        if(devUserService.addAPPVersion(appVersion))
-            map.put("success",1);
+        if (devUserService.addAPPVersion(appVersion))
+            map.put("success", 1);
         else
-            map.put("success",0);
-        return  map;
+            map.put("success", 0);
+        return map;
     }
 
     /**
@@ -156,30 +159,31 @@ public class DevUserController {
      */
     @RequestMapping("/deleteAPPInfo")
     @ResponseBody
-    public Map<String, Object> deleteAPPInfo(HttpServletRequest request){
+    @CrossOrigin
+    public Map<String, Object> deleteAPPInfo(HttpServletRequest request) {
         Map<String, Object> map = new HashMap<>();
-        String appid=request.getParameter("appId");
-        if (devUserService.deleteAPPInfo(appid)){
-            map.put("success",1);
+        String appid = request.getParameter("appId");
+        if (devUserService.deleteAPPInfo(appid)) {
+            map.put("success", 1);
+        } else {
+            map.put("success", 0);
         }
-        else {
-            map.put("success",0);
-        }
-        return  map;
+        return map;
     }
 
     /**
-     *查看APP信息
+     * 查看APP信息
      */
     @RequestMapping("/getAPPInfo")
     @ResponseBody
-    public Map<String, Object> getAPPInfo(HttpServletRequest request){
-        String appId=request.getParameter("appId");
+    @CrossOrigin
+    public Map<String, Object> getAPPInfo(HttpServletRequest request) {
+        String appId = request.getParameter("appId");
         Map<String, Object> map = new HashMap<>();
-        APPInfo appInfo=devUserService.getAPPInfo(appId);
-        List<APPVersion> appVersions=devUserService.getAPPVersion(appId);
-        map.put("appInfo",appInfo);
-        map.put("version",appVersions);
+        APPInfo appInfo = devUserService.getAPPInfo(appId);
+        List<APPVersion> appVersions = devUserService.getAPPVersion(appId);
+        map.put("appInfo", appInfo);
+        map.put("version", appVersions);
         return map;
     }
 
@@ -188,45 +192,45 @@ public class DevUserController {
      */
     @RequestMapping("/submitFile")
     @ResponseBody
-    public Map<String, Object> submitFile(HttpServletRequest request){
+    @CrossOrigin
+    public Map<String, Object> submitFile(HttpServletRequest request) {
         DiskFileItemFactory factory = new DiskFileItemFactory();
         ServletFileUpload upload = new ServletFileUpload(factory);
         Map<String, Object> map = new HashMap<>();
         upload.setHeaderEncoding("utf-8");
 
         try {
-            List<FileItem> list= upload.parseRequest(request);
-            for (FileItem item:list){ //保存文件
-                if(!item.isFormField()){
+            List<FileItem> list = upload.parseRequest(request);
+            for (FileItem item : list) { //保存文件
+                if (!item.isFormField()) {
                     String file_name = item.getName();
                     if (file_name != null && !file_name.equals("")) {
                         String extension = FilenameUtils.getExtension(file_name);
-                        String save_path,file_link;
-                        if (extension.equals("apk")){
-                            save_path=request.getServletContext().getRealPath("files/apk_files");
-                            file_link= new StringBuilder().append(ConstVar.domain).append("/").
+                        String save_path, file_link;
+                        if (extension.equals("apk")) {
+                            save_path = request.getServletContext().getRealPath("files/apk_files");
+                            file_link = new StringBuilder().append(ConstVar.domain).append("/").
                                     append(request.getContextPath()).append("/files/apk_files/").append(file_name).toString();
-                        }
-                        else{
-                            save_path=request.getServletContext().getRealPath("files/image_files");
-                            file_link= new StringBuilder().append(ConstVar.domain).append("/").
+                        } else {
+                            save_path = request.getServletContext().getRealPath("files/image_files");
+                            file_link = new StringBuilder().append(ConstVar.domain).append("/").
                                     append(request.getContextPath()).append("/files/image_files/").append(file_name).toString();
                         }
                         create_dir(save_path);
                         try {
                             InputStream in = item.getInputStream();
-                            String file_path=save_path+"\\"+file_name;
+                            String file_path = save_path + "\\" + file_name;
                             FileOutputStream out = new FileOutputStream(file_path);
                             byte[] buffer = new byte[1024];
                             int len;
-                            while ((len=in.read(buffer)) > 0){
-                                out.write(buffer,0,len);
+                            while ((len = in.read(buffer)) > 0) {
+                                out.write(buffer, 0, len);
                             }
                             in.close();
                             out.close();
                             item.delete();
-                            map.put("fileLink",file_link);
-                            map.put("sucess",1);
+                            map.put("fileLink", file_link);
+                            map.put("sucess", 1);
                             return map; //save file successfully
                         } catch (IOException e) {
                             e.printStackTrace();
@@ -237,14 +241,14 @@ public class DevUserController {
         } catch (FileUploadException e) {
             e.printStackTrace();
         }
-        map.put("fileLink","");
-        map.put("success",0);
+        map.put("fileLink", "");
+        map.put("success", 0);
         return map;
     }
 
-    private void create_dir(String dir_name){
-        File f=new File(dir_name);
-        if(!f.exists()){
+    private void create_dir(String dir_name) {
+        File f = new File(dir_name);
+        if (!f.exists()) {
             f.mkdirs();
         }
     }
