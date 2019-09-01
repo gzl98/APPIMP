@@ -7,6 +7,7 @@ import java.util.Date;
  */
 public class APPVersion {
 
+    //内部字段
     private Integer appVersionId;   //版本id
     private Integer appId;          //APPid
     private String versionNo;       //版本号
@@ -20,6 +21,8 @@ public class APPVersion {
     private Date modifyDate;        //更新日期
     private String apkLocPath;      //apk路径
     private String apkFileName;     //apk名称
+
+    //
 
     public Integer getAppVersionId() {
         return appVersionId;

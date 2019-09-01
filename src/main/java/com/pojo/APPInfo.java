@@ -39,7 +39,7 @@ public class APPInfo {
     private String categoryName3;       //目录名3
     private String statusName;          //状态名称
     private String flatformName;        //平台名称
-    private String versionNo;         //版本号
+    private String versionNo;           //版本号
 
     public Integer getAppId() {
         return appId;

@@ -6,23 +6,26 @@
 
     <!--根据账号获取管理员信息-->
     <select id="getBackendUserByCode" parameterType="String" resultType="com.pojo.BackendUser">
-        select * from backend_user
+        select *
+        from backend_user
         where userCode = #{userCode}
     </select>
 
     <!--通过目录名获取下一级目录的列表-->
     <select id="getChildAPPCategoryList" parameterType="Integer" resultType="com.pojo.APPCategory">
-        select * from app_category
+        select *
+        from app_category
         where parentId = #{categoryId}
     </select>
 
     <!--综合查询APP信息-->
-    <select id="getAPPListByAttr" parameterType="com.pojo.APPInfo" resultType="com.pojo.APPInfo">
+    <select id="getAPPListByAttr" resultType="com.pojo.APPInfo">
         select app_info.*, app_version.versionNo, d1.valueName statusName, d2.valueName flatformName, c1.categoryName categoryName1, c2.categoryName categoryName2, c3.categoryName categoryName3
-        from app_info, app_version, data_dictionary d1, data_dictionary d2,app_category c1, app_category c2, app_category c3
+        from app_info, app_version, data_dictionary d1, data_dictionary d2,app_category c1, app_category c2,
+        app_category c3
         where app_info.appId in
         <foreach collection="appIds" item="appId" index="index" open="(" close=")" separator=",">
-            #appId
+            #{appId}
         </foreach>
         and app_info.versionId = app_version.appVersionId
         and d1.valueId = status
@@ -39,7 +42,7 @@
     <select id="getAPPCountByAttr" parameterType="com.pojo.APPInfo" resultType="Integer">
         select appId from app_info where 1=1
         <if test="softwareName != null">and softwareName like "%"#{softwareName}"%"</if>
-        <if test="status != null">and status = #{status}</if>
+        <if test="status != null">and app_info.status = #{status}</if>
         <if test="flatformId != null">and flatformId = #{flatformId}</if>
         <if test="devId != null">and devId = #{devId}</if>
         <if test="categoryLevel1 != null">and categoryLevel1 = #{categoryLevel1}</if>

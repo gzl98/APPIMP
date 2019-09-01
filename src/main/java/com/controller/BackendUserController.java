@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -76,15 +77,17 @@ public class BackendUserController {
     public Map<String, Object> getAPPListByAttr(HttpServletRequest request) {
         Integer offset = Integer.valueOf(request.getParameter("offset"));
         Integer limit = Integer.valueOf(request.getParameter("limit"));
-        String[] appIds = request.getParameter("appIds").split(",");
+        System.out.println( "\n\nAPPIDS" + request.getParameter("appIds") + "\n");
+        String[] strAppIds = request.getParameter("appIds").split(",");
 
-        Integer[] appIdsI = new Integer[appIds.length];
-        for (int i = 0; i < appIds.length; i++) {
-            appIdsI[i] = Integer.valueOf(appIds[i]);
+        Integer[] appIds = new Integer[strAppIds.length];
+        for (int i = 0; i < strAppIds.length; i++) {
+            appIds[i] = Integer.valueOf(strAppIds[i]);
         }
+        System.out.println(Arrays.toString(appIds));
 
         Map<String, Object> map = new HashMap<>();
-        map.put("data", backendUserService.getAPPListByAttr(appIdsI, (offset - 1) * limit, limit));
+        map.put("data", backendUserService.getAPPListByAttr(appIds, (offset - 1) * limit, limit));
         return map;
     }
 
@@ -97,13 +100,22 @@ public class BackendUserController {
     public Map<String, Object> getAPPCountByAttr(HttpServletRequest request) {
         APPInfo appInfo = new APPInfo();
 
-        appInfo.setSoftwareName(request.getParameter("softwareName"));
-        appInfo.setStatus(Integer.valueOf(request.getParameter("appStatus")));
-        appInfo.setFlatformId(Integer.valueOf(request.getParameter("appFlatForm")));
-        appInfo.setDevId(Integer.valueOf(request.getParameter("userId")));
-        appInfo.setCategoryLevel1(Integer.valueOf(request.getParameter("appCategory1")));
-        appInfo.setCategoryLevel2(Integer.valueOf(request.getParameter("appCategory2")));
-        appInfo.setCategoryLevel3(Integer.valueOf(request.getParameter("appCategory3")));
+        System.out.println("softwareName : " + request.getParameter("softwareName"));
+
+        if (!request.getParameter("softwareName").equals(""))
+            appInfo.setSoftwareName(request.getParameter("softwareName"));
+        if (!request.getParameter("appStatus").equals(""))
+            appInfo.setStatus(Integer.valueOf(request.getParameter("appStatus")));
+        if (!request.getParameter("appFlatForm").equals(""))
+            appInfo.setFlatformId(Integer.valueOf(request.getParameter("appFlatForm")));
+        if (!request.getParameter("userId").equals(""))
+            appInfo.setDevId(Integer.valueOf(request.getParameter("userId")));
+        if (!request.getParameter("appCategory1").equals(""))
+            appInfo.setCategoryLevel1(Integer.valueOf(request.getParameter("appCategory1")));
+        if (!request.getParameter("appCategory2").equals(""))
+            appInfo.setCategoryLevel2(Integer.valueOf(request.getParameter("appCategory2")));
+        if (!request.getParameter("appCategory3").equals(""))
+            appInfo.setCategoryLevel3(Integer.valueOf(request.getParameter("appCategory3")));
         Map<String, Object> map = new HashMap<>();
 
         map.put("data", backendUserService.getAPPCountByAttr(appInfo));

@@ -5,6 +5,7 @@ import com.pojo.APPCategory;
 import com.pojo.APPInfo;
 import com.pojo.BackendUser;
 import com.service.BackendUserService;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -51,7 +52,7 @@ public class BackendUserServiceImpl implements BackendUserService {
      * @param limit  每页的限制条数，即数据库每次的查询条数
      * @return 符合条件的集合
      */
-    public List<APPInfo> getAPPListByAttr(Integer[] appIds, Integer offset, Integer limit) {
+    public List<APPInfo> getAPPListByAttr(@Param("appIds") Integer[] appIds, @Param("offset") Integer offset, @Param("limit") Integer limit) {
         return backendUserDao.getAPPListByAttr(appIds, offset, limit);
     }
 

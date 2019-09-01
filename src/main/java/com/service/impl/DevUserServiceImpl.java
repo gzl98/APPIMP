@@ -3,14 +3,11 @@ package com.service.impl;
 import com.dao.DevUserDao;
 import com.pojo.APPInfo;
 import com.pojo.APPVersion;
-import com.pojo.BackendUser;
-import com.pojo.APPInfo;
 import com.pojo.DevUser;
 import com.service.DevUserService;
 import org.apache.ibatis.session.SqlSessionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.test.context.jdbc.Sql;
 
 import java.util.Date;
 import java.util.List;
@@ -44,8 +41,8 @@ public class DevUserServiceImpl implements DevUserService {
         appVersion.setCreationDate(new Date());
         try {
             List<APPVersion> appVersions=devUserDao.getAPPVersionByVersionNo(appVersion.getVersionNo());
-            if (appVersions.size()!=0)
-                return false;
+//            if (appVersions.size()!=0)
+//                return false;
             devUserDao.addAPPVersion(appVersion);
             return true;
         }

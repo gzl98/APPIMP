@@ -2,11 +2,9 @@ package com.dao;
 
 import com.pojo.APPInfo;
 import com.pojo.APPVersion;
+import com.pojo.DevUser;
 
 import java.util.List;
-
-import com.pojo.APPInfo;
-import com.pojo.DevUser;
 
 public interface DevUserDao {
     void addAPPInfo(APPInfo appInfo);
