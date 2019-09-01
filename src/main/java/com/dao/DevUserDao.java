@@ -2,7 +2,13 @@ package com.dao;
 
 import com.pojo.APPInfo;
 import com.pojo.APPVersion;
+
+import java.util.List;
+
+import com.pojo.APPInfo;
 import com.pojo.DevUser;
+import com.sun.deploy.ui.AppInfo;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -37,4 +43,12 @@ public interface DevUserDao {
      * @return 修改是否成功（1：成功，0失败）
      */
     Integer changeShelfStatus(APPInfo appInfo);
+
+    /**
+     * 修改appinfo的version id
+     * @param appId
+     * @param appVersionId
+     */
+    void updateVersionId(@Param("appId")Integer appId,@Param("appVersionId")Integer appVersionId);
+    List<Integer> getVersionId(@Param("appId")Integer appId, @Param("versionNo")String versionNo);
 }

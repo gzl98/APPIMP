@@ -4,52 +4,65 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.dao.DevUserDao">
     <insert id="addAPPInfo" parameterType="APPInfo">
-        insert into app_info (softwareName, APKName, supportROM, interfaceLanguage, softwareSize, devId, appInfo, status, flatformId, downloads, createdBy, creationDate, categoryLevel1, categoryLevel2, categoryLevel3, logoPicPath, versionId)
-        values (#{softwareName},
-                #{APKName},
-                #{supportROM},
-                #{interfaceLanguage},
-                #{softwareSize},
-                #{devId},
-                #{appInfo},
-                #{status},
-                #{flatformId},
-                #{downloads},
-                #{createdBy},
-                #{creationDate},
-                #{categoryLevel1},
-                #{categoryLevel2},
-                #{categoryLevel3},
-                #{logoPicPath},
-                #{versionId}
-        )
+            insert into app_info(softwareName, APKName, supportROM, interfaceLanguage, softwareSize, devId, appInfo, status,
+                                 flatformId, downloads, createdBy, creationDate, categoryLevel1, categoryLevel2, categoryLevel3,
+                                 logoPicPath, versionId)
+            values(#{softwareName},
+                   #{APKName},
+                   #{supportROM},
+                   #{interfaceLanguage},
+                   #{softwareSize},
+                   #{devId},
+                   #{appInfo},
+                   #{status},
+                   #{flatformId},
+                   #{downloads},
+                   #{createdBy},
+                   #{creationDate},
+                   #{categoryLevel1},
+                   #{categoryLevel2},
+                   #{categoryLevel3},
+                   #{logoPicPath},
+                   #{versionId}
+            )
     </insert>
     <insert id="addAPPVersion" parameterType="APPVersion">
-        insert into app_version (appId, versionNo, versionInfo, publishStatus, versionSize, createdBy, creationDate, apkLocPath)
-            value (
-            #{appId},
-            #{versionNo},
-            #{versionInfo},
-            #{publishStatus},
-            #{versionSize},
-            #{createdBy},
-            #{creationDate},
-            #{apkLocPath}
-        )
+        insert into app_version(appId,versionNo,versionInfo,publishStatus,versionSize,createdBy,creationDate,apkLocPath)
+        value (
+               #{appId},
+               #{versionNo},
+               #{versionInfo},
+               #{publishStatus},
+               #{versionSize},
+               #{createdBy},
+               #{creationDate},
+                #{apkLocPath}
+              )
     </insert>
     <delete id="deleteAPPInfo" parameterType="String">
         delete from app_info
         where appId = #{appid}
     </delete>
     <select id="getAPPInfo" parameterType="String" resultType="com.pojo.APPInfo">
-        select *
-        from app_info
-        where appId = #{appId}
+        select app_info.*,  d1.valueName statusName, d2.valueName flatformName, c1.categoryName categoryName1,
+               c2.categoryName categoryName2, c3.categoryName categoryName3,versionNo
+        from app_info,app_category c1,app_category c2,app_category c3,data_dictionary d1, data_dictionary d2,app_version
+        where app_info.appId = #{appId}
+        and c1.categoryId=app_info.categoryLevel1
+        and c2.categoryId=app_info.categoryLevel2
+        and c3.categoryId=app_info.categoryLevel3
+        and d1.valueId = status
+        and d1.typeCode = 'app_status'
+        and d2.valueId = flatformId
+        and d2.typeCode = 'app_flatform'
+        and app_version.appVersionId=app_info.versionId
     </select>
     <select id="getAPPVersion" parameterType="String" resultType="com.pojo.APPVersion">
-        select *
-        from app_version
-        where appId = #{appId};
+        select app_version.*,data_dictionary.valueName publishStatusName
+        from app_version,data_dictionary
+        where appId = #{appId}
+        and data_dictionary.typeCode='version_publish'
+        and data_dictionary.valueId=app_version.publishStatus
     </select>
     <select id="getAPPVersionByVersionNo" parameterType="String" resultType="APPVersion">
         select *
@@ -77,5 +90,17 @@
         set status = #{status}
         where appId = #{appId}
     </update>
+
+    <!--    修改appinfo中的versionid-->
+    <update id="updateVersionId">
+        update app_info
+        set versionId=#{appVersionId}
+        where appId=#{appId}
+    </update>
+    <!--  在appversion中查询versionid  -->
+    <select id="getVersionId" parameterType="APPInfo" resultType="Integer">
+        select appVersionId
+        from app_version  where appId=#{appId} and versionNo=#{versionNo};
+    </select>
 
 </mapper>

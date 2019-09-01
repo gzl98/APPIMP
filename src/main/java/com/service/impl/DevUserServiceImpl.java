@@ -3,11 +3,14 @@ package com.service.impl;
 import com.dao.DevUserDao;
 import com.pojo.APPInfo;
 import com.pojo.APPVersion;
+import com.pojo.BackendUser;
+import com.pojo.APPInfo;
 import com.pojo.DevUser;
 import com.service.DevUserService;
 import org.apache.ibatis.session.SqlSessionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.test.context.jdbc.Sql;
 
 import java.util.Date;
 import java.util.List;
@@ -26,7 +29,6 @@ public class DevUserServiceImpl implements DevUserService {
     public boolean addAPPInfo(APPInfo appInfo) {
         appInfo.setCreatedBy(appInfo.getDevId());
         appInfo.setCreationDate(new Date());
-        appInfo.setVersionId(0);
         try {
             devUserDao.addAPPInfo(appInfo);
             return true;
@@ -40,10 +42,11 @@ public class DevUserServiceImpl implements DevUserService {
     public boolean addAPPVersion(APPVersion appVersion) {
         appVersion.setCreationDate(new Date());
         try {
-            List<APPVersion> appVersions=devUserDao.getAPPVersionByVersionNo(appVersion.getVersionNo());
-//            if (appVersions.size()!=0)
-//                return false;
+            if(devUserDao.getVersionId(appVersion.getAppId(),appVersion.getVersionNo()).size()!=0)
+                return false;
             devUserDao.addAPPVersion(appVersion);
+            int newVersionId=devUserDao.getVersionId(appVersion.getAppId(),appVersion.getVersionNo()).get(0);
+            devUserDao.updateVersionId(appVersion.getAppId(),newVersionId);
             return true;
         }
         catch (SqlSessionException e){
