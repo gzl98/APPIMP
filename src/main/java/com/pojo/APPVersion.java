@@ -22,7 +22,16 @@ public class APPVersion {
     private String apkLocPath;      //apk路径
     private String apkFileName;     //apk名称
 
-    //
+    //外部字段
+    private String publishStatusName;//发布状态名称
+
+    public String getPublishStatusName() {
+        return publishStatusName;
+    }
+
+    public void setPublishStatusName(String publishStatusName) {
+        this.publishStatusName = publishStatusName;
+    }
 
     public Integer getAppVersionId() {
         return appVersionId;
