@@ -5,6 +5,7 @@ import com.pojo.APPVersion;
 import com.pojo.DevUser;
 import com.service.DevUserService;
 import com.utils.ConstVar;
+import com.utils.FileUtils;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
@@ -21,6 +22,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -216,7 +218,7 @@ public class DevUserController {
                             file_link = new StringBuilder().append(ConstVar.domain).append("/").
                                     append(request.getContextPath()).append("/files/image_files/").append(file_name).toString();
                         }
-                        create_dir(save_path);
+                        FileUtils.create_dir(save_path);
                         try {
                             InputStream in = item.getInputStream();
                             String file_path = save_path + "\\" + file_name;
@@ -246,10 +248,59 @@ public class DevUserController {
         return map;
     }
 
-    private void create_dir(String dir_name) {
-        File f = new File(dir_name);
-        if (!f.exists()) {
-            f.mkdirs();
-        }
+    /**
+     *修改APP基础信息（根据apk名称修改）
+     */
+    @RequestMapping("/updateAPPInfo")
+    @ResponseBody
+    @CrossOrigin
+    public Map<String, Object> updateAPPInfo(HttpServletRequest request) {
+        APPInfo appInfo=new APPInfo();
+        Map<String, Object> map = new HashMap<>();
+        appInfo.setAPKName(request.getParameter("apkName"));
+        appInfo.setSoftwareName(request.getParameter("softwareName"));
+        appInfo.setSupportROM(request.getParameter("supportROM"));
+        appInfo.setInterfaceLanguage(request.getParameter("interfaceLanguage"));
+        appInfo.setSoftwareSize(Double.valueOf(request.getParameter("softwareSize")));
+        appInfo.setDownloads(Integer.valueOf(request.getParameter("downloads")));
+        appInfo.setFlatformId(Integer.valueOf(request.getParameter("flatFormId")));
+        appInfo.setStatus(Integer.valueOf(request.getParameter("status")));
+        appInfo.setCategoryLevel1(Integer.valueOf(request.getParameter("categoryLevel1")));
+        appInfo.setCategoryLevel2(Integer.valueOf(request.getParameter("categoryLevel2")));
+        appInfo.setCategoryLevel3(Integer.valueOf(request.getParameter("categoryLevel3")));
+        appInfo.setAppInfo(request.getParameter("appInfo"));
+        appInfo.setLogoPicPath(request.getParameter("logoPicPath"));
+        appInfo.setModifyBy(Integer.valueOf(request.getParameter("userId")));
+        appInfo.setModifyDate(new Date());
+        if (devUserService.updateAPPInfo(appInfo))
+            map.put("success", 1);
+        else
+            map.put("success", 0);
+        return map;
+    }
+
+    /**
+     * 修改APP最新版本信息
+     * @param request
+     * @return
+     */
+    @RequestMapping("/updateAPPLatestVersion")
+    @ResponseBody
+    @CrossOrigin
+    public Map<String, Object> updateAPPLatestVersion(HttpServletRequest request) {
+        APPVersion version=new APPVersion();
+        version.setAppVersionId(Integer.valueOf(request.getParameter("versionId")));
+        version.setModifyBy(Integer.valueOf(request.getParameter("userId")));
+        version.setVersionSize(Double.valueOf(request.getParameter("versionSize")));
+        version.setVersionInfo(request.getParameter("versionInfo"));
+        version.setApkLocPath(request.getParameter("apkLocPath"));
+        version.setModifyDate(new Date());
+        Map<String, Object> map = new HashMap<>();
+
+        if(devUserService.updateAPPLatestVersion(version))
+            map.put("success", 1);
+        else
+            map.put("success", 0);
+        return map;
     }
 }

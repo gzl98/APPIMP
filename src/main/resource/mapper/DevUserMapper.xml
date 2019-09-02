@@ -41,7 +41,11 @@
     </insert>
     <delete id="deleteAPPInfo" parameterType="String">
         delete from app_info
-        where appId = #{appid}
+        where appId = #{appid};
+    </delete>
+    <delete id="deleteAPPVersion" parameterType="String">
+        delete from app_version
+        where appId=#{appid}
     </delete>
     <select id="getAPPInfo" parameterType="String" resultType="com.pojo.APPInfo">
         select app_info.*,  d1.valueName statusName, d2.valueName flatformName, c1.categoryName categoryName1,
@@ -102,5 +106,32 @@
         select appVersionId
         from app_version  where appId=#{appId} and versionNo=#{versionNo};
     </select>
+    <update id="updateAPPInfo" parameterType="APPInfo">
+        update app_info
+        set softwareName=#{softwareName},
+            supportROM=#{supportROM},
+            interfaceLanguage=#{interfaceLanguage},
+            softwareSize=#{softwareSize},
+            downloads=#{downloads},
+            flatFormId=#{flatformId},
+            categoryLevel1=#{categoryLevel1},
+            categoryLevel2=#{categoryLevel2},
+            categoryLevel3=#{categoryLevel3},
+            status=#{status},
+            appInfo=#{appInfo},
+            logoPicPath=#{logoPicPath},
+            modifyDate=#{modifyDate}
+        where APKName=#{APKName}
+    </update>
+    
+    <update id="updateAPPLatestVersion" parameterType="APPVersion">
+        update app_version
+        set modifyBy = #{modifyBy},
+            versionSize=#{versionSize},
+            versionInfo=#{versionInfo},
+            apkLocPath=#{apkLocPath},
+            modifyDate=#{modifyDate}
+        where appVersionId=#{appVersionId}
+    </update>
 
 </mapper>

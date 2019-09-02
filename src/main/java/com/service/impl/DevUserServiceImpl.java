@@ -59,6 +59,7 @@ public class DevUserServiceImpl implements DevUserService {
     public boolean deleteAPPInfo(String appid) {
         try{
             devUserDao.deleteAPPInfo(appid);
+            devUserDao.deleteAPPVersion(appid);
             return true;
         }catch (SqlSessionException e){
             e.printStackTrace();
@@ -79,6 +80,31 @@ public class DevUserServiceImpl implements DevUserService {
     public List<APPVersion> getAPPVersion(String appId) {
         return devUserDao.getAPPVersion(appId);
     }
+
+    @Override
+    public boolean updateAPPInfo(APPInfo appInfo) {
+        try {
+            devUserDao.updateAPPInfo(appInfo);
+            return true;
+        }
+        catch (SqlSessionException e){
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
+    public boolean updateAPPLatestVersion(APPVersion appVersion) {
+        try {
+            devUserDao.updateAPPLatestVersion(appVersion);
+            return true;
+        }
+        catch (SqlSessionException e){
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     /**
      * 通过账号获取开发者信息
      *

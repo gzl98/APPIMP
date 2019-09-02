@@ -39,4 +39,6 @@ public interface DevUserService {
     boolean deleteAPPInfo(String appid);
     APPInfo getAPPInfo(String appId);
     List<APPVersion> getAPPVersion(String appId);
+    boolean updateAPPInfo(APPInfo appInfo);
+    boolean updateAPPLatestVersion(APPVersion appVersion);
 }

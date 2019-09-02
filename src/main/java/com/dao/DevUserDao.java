@@ -9,6 +9,7 @@ import com.pojo.APPInfo;
 import com.pojo.DevUser;
 import com.sun.deploy.ui.AppInfo;
 import org.apache.ibatis.annotations.Param;
+import sun.text.normalizer.VersionInfo;
 
 import java.util.List;
 
@@ -16,6 +17,7 @@ public interface DevUserDao {
     void addAPPInfo(APPInfo appInfo);
     void addAPPVersion(APPVersion appVersion);
     void deleteAPPInfo(String appid);
+    void deleteAPPVersion(String appid);
     List<APPInfo> getAPPInfo(String appId);
     List<APPVersion> getAPPVersion(String appId);
     List<APPVersion> getAPPVersionByVersionNo(String versionNo);
@@ -50,5 +52,24 @@ public interface DevUserDao {
      * @param appVersionId
      */
     void updateVersionId(@Param("appId")Integer appId,@Param("appVersionId")Integer appVersionId);
+
+    /**
+     * 通过appid,verionno来查询versionid
+     * @param appId
+     * @param versionNo
+     * @return
+     */
     List<Integer> getVersionId(@Param("appId")Integer appId, @Param("versionNo")String versionNo);
+
+    /**
+     * 更新apkname更新apkinfo
+     * @param appInfo
+     */
+    void updateAPPInfo(APPInfo appInfo);
+
+    /**
+     * 根据verionid更新appversion
+     * @param appVersion
+     */
+    void updateAPPLatestVersion(APPVersion appVersion);
 }
