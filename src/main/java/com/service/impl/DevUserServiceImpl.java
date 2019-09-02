@@ -29,6 +29,7 @@ public class DevUserServiceImpl implements DevUserService {
     public boolean addAPPInfo(APPInfo appInfo) {
         appInfo.setCreatedBy(appInfo.getDevId());
         appInfo.setCreationDate(new Date());
+        appInfo.setVersionId(0);
         try {
             devUserDao.addAPPInfo(appInfo);
             return true;
